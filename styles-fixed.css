@@ -1,0 +1,116 @@
+
+:root{
+  --bg:#0b0d10;
+  --panel:#101318;
+  --panel2:#0e1116;
+  --line:#2a2f38;
+  --text:#f5f7fb;
+  --muted:#a6adb8;
+  --accent:#ff7a00;
+  --accent2:#ffae62;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(255,122,0,.10), transparent 28%),
+    linear-gradient(180deg,#0b0d10,#090b0e 52%,#0b0d10);
+  color:var(--text);
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+a{color:inherit;text-decoration:none}
+.site-shell{max-width:980px;margin:0 auto;padding:0 28px}
+.topbar{padding:34px 0 18px}
+.brand{display:flex;gap:16px;align-items:center}
+.brand-logo{width:72px;height:72px;border-radius:18px;object-fit:cover;border:1px solid #343a45}
+.brand-name{font-size:28px;font-weight:800}
+.brand-sub{margin-top:5px;color:var(--muted);font-size:16px}
+.section{padding:92px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:14px;font-weight:900;letter-spacing:.22em;color:var(--accent2);margin-bottom:28px}
+h1,h2{margin:0;letter-spacing:-.04em;line-height:.98}
+h1{font-size:clamp(56px,10vw,105px);max-width:900px}
+h2{font-size:clamp(46px,7vw,78px);max-width:850px}
+.lead{color:#c3c8d0;font-size:clamp(20px,3.2vw,30px);line-height:1.65;max-width:860px;margin:40px 0}
+.actions{display:flex;gap:18px;flex-wrap:wrap;margin:28px 0 42px}
+.btn{
+  border:1px solid #303641;background:#11151b;color:white;
+  padding:20px 28px;border-radius:24px;font-weight:800;font-size:18px;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#ff8f20);border-color:transparent}
+.logo-card{
+  border:1px solid var(--line);border-radius:36px;overflow:hidden;
+  background:linear-gradient(180deg,#11151b,#0d1014);
+  margin:36px 0 0;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+.hero-logo{display:block;width:100%;height:auto}
+.stats-card{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);border-top:0;border-radius:0 0 36px 36px;overflow:hidden;
+}
+.stats-card>div{padding:28px;border-right:1px solid var(--line);background:rgba(15,18,23,.82)}
+.stats-card>div:last-child{border-right:0}
+.stats-card span,.card span,.contract-card span{display:block;color:var(--muted);font-size:16px;margin-bottom:10px}
+.stats-card strong,.card strong{font-size:24px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:44px}
+.grid.single{grid-template-columns:1fr}
+.card,.contract-card{
+  border:1px solid var(--line);background:linear-gradient(180deg,#101318,#0d1014);
+  border-radius:30px;padding:34px;
+}
+.card p{color:#c1c6cf;font-size:20px;line-height:1.65;margin-bottom:0}
+.contract-card{margin-top:24px}
+.contract-card code{
+  display:block;margin:18px 0 22px;color:#e5e8ee;white-space:normal;word-break:break-all;
+  font-size:18px;line-height:1.6;
+}
+.copy-btn{width:100%;border-radius:20px}
+blockquote{
+  margin:34px 0 0;border-left:4px solid var(--accent);padding:2px 0 2px 26px;
+  color:#c7ccd4;font-size:20px;line-height:1.7;
+}
+.text-link{display:inline-block;margin-top:12px;color:var(--accent2);font-size:24px;font-weight:800}
+.link-card{display:block}
+.link-card strong{display:block;margin-bottom:10px}
+.numbered .card b{display:block;color:var(--accent2);font-size:19px;margin-bottom:22px}
+footer{padding:54px 0 80px;color:var(--muted);display:grid;gap:8px}
+.footer-logo{width:64px;height:64px;border-radius:16px;object-fit:cover;margin-bottom:12px}
+
+/* Responsive image safeguards */
+.logo-card{
+  width:100%;
+  max-width:100%;
+}
+.logo-card img{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+}
+img{
+  max-width:100%;
+  height:auto;
+}
+
+@media(max-width:720px){
+  .logo-card{width:100%;max-width:100%;border-radius:26px}
+  .logo-card img{width:100%;max-width:100%;height:auto}
+
+  .site-shell{padding:0 18px}
+  .section{padding:68px 0}
+  .topbar{padding-top:22px}
+  .brand-logo{width:58px;height:58px;border-radius:15px}
+  .brand-name{font-size:24px}
+  h1{font-size:clamp(54px,14vw,82px)}
+  h2{font-size:clamp(42px,11vw,64px)}
+  .lead{font-size:22px}
+  .grid{grid-template-columns:1fr}
+  .stats-card{grid-template-columns:1fr}
+  .stats-card>div{border-right:0;border-bottom:1px solid var(--line)}
+  .stats-card>div:last-child{border-bottom:0}
+  .actions{display:grid;grid-template-columns:1fr}
+  .btn{width:100%}
+}
