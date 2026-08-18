@@ -1,3 +1,15 @@
-const contract='0xC02cd09C60aBc64b0C77720326597430e118B4C1';
-document.getElementById('year').textContent=new Date().getFullYear();
-document.getElementById('copyContract').addEventListener('click', async (e)=>{const btn=e.currentTarget;try{await navigator.clipboard.writeText(contract);const old=btn.textContent;btn.textContent='Скопійовано';setTimeout(()=>btn.textContent=old,1400)}catch{window.prompt('Скопіюйте адресу контракту BVM:', contract)}});
+const copyBtn = document.getElementById('copyContract');
+const contract = document.getElementById('contract')?.textContent?.trim();
+
+if (copyBtn && contract) {
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(contract);
+      const oldText = copyBtn.textContent;
+      copyBtn.textContent = 'Адресу скопійовано';
+      setTimeout(() => copyBtn.textContent = oldText, 1600);
+    } catch {
+      copyBtn.textContent = 'Скопіюйте адресу вручну';
+    }
+  });
+}
