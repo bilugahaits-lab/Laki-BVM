@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bilugahaits-lab.github.io/Laki-BVM/sitemap.xml
