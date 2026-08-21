@@ -11,7 +11,7 @@
 
 ## Файли для GitHub
 Завантажте в корінь репозиторію:
-- `index.html`
+- `index-3.html`
 - `styles.css`
 - `script.js`
 - `logo-bvm.png`
