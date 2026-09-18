@@ -1,52 +1,125 @@
 <!doctype html>
 <html lang="uk">
+
 <head>
+
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="google-site-verification"
-        content="uFlBD9V5K35n6xZAWkA5NF0gfzrd14RXOj_c4vrN_pE">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-  <title>Laki Token Ecosystem — BVM · UNO · TVO</title>
+  <meta
+    name="google-site-verification"
+    content="uFlBD9V5K35n6xZAWkA5NF0gfzrd14RXOj_c4vrN_pE"
+  >
 
-  <meta name="description"
-        content="Laki Token Ecosystem: BVM, Streng UNO (UNO) та TVO — Ethereum ERC-20 токени. Офіційний сайт, контракти, ліквідність та інформація про екосистему.">
 
-  <meta name="keywords"
-        content="Laki BVM, BVM token, Streng UNO, UNO token, TVO token, Laki crypto, Ethereum ERC-20, гаманець, заробіток">
+  <title>
+    Laki Token Ecosystem — BVM · UNO · TVO
+  </title>
 
-  <link rel="canonical"
-        href="https://bilugahaits-lab.github.io/Laki-BVM/">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title"
-        content="Laki Token Ecosystem — BVM · UNO · TVO">
-  <meta property="og:description"
-        content="Офіційний сайт екосистеми Laki: BVM, Streng UNO та TVO на Ethereum.">
-  <meta property="og:url"
-        content="https://bilugahaits-lab.github.io/Laki-BVM/">
-  <meta property="og:image"
-        content="https://bilugahaits-lab.github.io/Laki-BVM/logo-bvm.png">
+  <meta
+    name="description"
+    content="Laki Token Ecosystem: BVM, Streng UNO (UNO) та TVO — Ethereum ERC-20 токени. Офіційний сайт, контракти, Web3 та інформація про екосистему."
+  >
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title"
-        content="Laki Token Ecosystem — BVM · UNO · TVO">
-  <meta name="twitter:description"
-        content="BVM, Streng UNO та TVO — Ethereum ERC-20 токени екосистеми Laki.">
-  <meta name="twitter:image"
-        content="https://bilugahaits-lab.github.io/Laki-BVM/logo-bvm.png">
 
-  <link rel="icon"
-        href="logo-bvm-32x32.svg"
-        type="image/svg+xml">
+  <meta
+    name="keywords"
+    content="Laki BVM, BVM token, Streng UNO, UNO token, TVO token, Laki crypto, Ethereum ERC-20, Web3, гаманець, заробіток"
+  >
 
-  <link rel="stylesheet"
-        href="styles-fixed.css">
 
-  <!-- Structured data -->
+  <link
+    rel="canonical"
+    href="https://bilugahaits-lab.github.io/Laki-BVM/"
+  >
+
+
+
+  <!-- =====================================================
+       OPEN GRAPH
+       ===================================================== -->
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:title"
+    content="Laki Token Ecosystem — BVM · UNO · TVO"
+  >
+
+  <meta
+    property="og:description"
+    content="Офіційний сайт екосистеми Laki: BVM, Streng UNO та TVO на Ethereum."
+  >
+
+  <meta
+    property="og:url"
+    content="https://bilugahaits-lab.github.io/Laki-BVM/"
+  >
+
+  <meta
+    property="og:image"
+    content="https://bilugahaits-lab.github.io/Laki-BVM/logo-bvm.png"
+  >
+
+
+
+  <!-- =====================================================
+       TWITTER / X
+       ===================================================== -->
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  >
+
+  <meta
+    name="twitter:title"
+    content="Laki Token Ecosystem — BVM · UNO · TVO"
+  >
+
+  <meta
+    name="twitter:description"
+    content="BVM, Streng UNO та TVO — Ethereum ERC-20 токени екосистеми Laki."
+  >
+
+  <meta
+    name="twitter:image"
+    content="https://bilugahaits-lab.github.io/Laki-BVM/logo-bvm.png"
+  >
+
+
+
+  <!-- =====================================================
+       ICON + CSS
+       ===================================================== -->
+
+  <link
+    rel="icon"
+    href="logo-bvm-32x32.svg"
+    type="image/svg+xml"
+  >
+
+  <link
+    rel="stylesheet"
+    href="styles-fixed.css"
+  >
+
+
+
+  <!-- =====================================================
+       STRUCTURED DATA
+       ===================================================== -->
+
   <script type="application/ld+json">
+
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -55,19 +128,163 @@
     "url": "https://bilugahaits-lab.github.io/Laki-BVM/",
     "description": "Official website of the Laki Token Ecosystem: BVM, Streng UNO and TVO on Ethereum."
   }
+
   </script>
+
+
+
+  <!-- =====================================================
+       WALLET UI
+       Тільки оформлення нового блоку.
+       Основний styles-fixed.css не змінюємо.
+       ===================================================== -->
+
+  <style>
+
+    .wallet-panel {
+      margin-top: 28px;
+    }
+
+
+    .wallet-connect-box {
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 140, 0, 0.08),
+          rgba(0, 0, 0, 0.10)
+        );
+    }
+
+
+    .wallet-connect-box h3 {
+      margin-top: 0;
+    }
+
+
+    .wallet-status {
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+
+    .wallet-status-label {
+      display: block;
+      margin-bottom: 7px;
+      opacity: 0.7;
+      font-size: 14px;
+    }
+
+
+    .wallet-address {
+      display: block;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+
+    .wallet-success {
+      margin-top: 14px;
+      font-weight: 700;
+    }
+
+
+    .wallet-error {
+      margin-top: 14px;
+    }
+
+
+    .wallet-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+
+    .token-logo {
+      display: block;
+      width: min(100%, 360px);
+      height: auto;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+    }
+
+
+    .token-contract {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+
+    .registered-content {
+      margin-top: 24px;
+      padding: 22px;
+      border-radius: 20px;
+      border: 1px dashed rgba(255, 140, 0, 0.35);
+    }
+
+
+    .registered-content[hidden] {
+      display: none;
+    }
+
+
+    .member-logo-preview {
+      width: 120px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 50%;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+
+    @media (max-width: 640px) {
+
+      .wallet-connect-box {
+        padding: 20px;
+      }
+
+      .wallet-actions {
+        flex-direction: column;
+      }
+
+      .wallet-actions .btn {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 
+
 <body>
+
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
 
 <header class="site-header">
 
   <div class="container header-inner">
 
-    <a class="brand"
-       href="#top"
-       aria-label="Laki Token Ecosystem">
+    <a
+      class="brand"
+      href="#top"
+      aria-label="Laki Token Ecosystem"
+    >
 
       <span class="brand-name">
         Laki
@@ -84,440 +301,262 @@
 </header>
 
 
+
 <main id="top">
 
 
-  <!-- =====================================================
-       HERO
-       ===================================================== -->
 
-  <section class="hero">
+<!-- =========================================================
+     HERO
+     ========================================================= -->
 
-    <div class="container hero-grid">
+<section class="hero">
 
-      <div class="hero-copy">
-
-        <p class="eyebrow">
-          LAKI · TOKEN ECOSYSTEM · ETHEREUM
-        </p>
-
-        <h1>
-          Laki — екосистема Ethereum ERC-20 токенів.
-        </h1>
-
-        <p class="lead">
-
-          BVM — основний токен екосистеми Laki.
-
-          UNO розвивається як community та rewards-токен,
-          а TVO залишається додатковою частиною екосистеми.
-
-        </p>
+  <div class="container hero-grid">
 
 
-        <div class="actions">
+    <div class="hero-copy">
 
-          <a
-            class="btn primary"
-            href="https://etherscan.io/token/0xC02cd09C60aBc64b0C77720326597430e118B4C1"
-            target="_blank"
-            rel="noopener">
-
-            BVM на Etherscan
-
-          </a>
+      <p class="eyebrow">
+        LAKI · TOKEN ECOSYSTEM · ETHEREUM
+      </p>
 
 
-          <a
-            class="btn ghost"
-            href="https://app.uniswap.org/"
-            target="_blank"
-            rel="noopener">
+      <h1>
+        Laki — екосистема Ethereum ERC-20 токенів.
+      </h1>
 
-            Uniswap
 
-          </a>
+      <p class="lead">
 
-        </div>
+        BVM — основний токен екосистеми Laki.
+
+        UNO розвивається як community та rewards-токен,
+        а TVO залишається додатковою частиною екосистеми.
+
+      </p>
+
+
+
+      <div class="actions">
+
+
+        <a
+          class="btn primary"
+          href="https://etherscan.io/token/0xC02cd09C60aBc64b0C77720326597430e118B4C1"
+          target="_blank"
+          rel="noopener"
+        >
+
+          BVM на Etherscan
+
+        </a>
+
+
+
+        <a
+          class="btn ghost"
+          href="#wallet"
+        >
+
+          Підключити гаманець
+
+        </a>
+
 
       </div>
 
+    </div>
 
-      <div class="hero-art">
+
+
+    <div class="hero-art">
+
+      <img
+        src="logo-bvm.png"
+        alt="Laki BVM"
+      >
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     STATS
+     ========================================================= -->
+
+<section class="section">
+
+  <div class="container stats">
+
+
+    <div class="stat">
+
+      <span class="stat-label">
+        Мережа
+      </span>
+
+      <strong>
+        Ethereum
+      </strong>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <span class="stat-label">
+        Основний токен
+      </span>
+
+      <strong>
+        BVM
+      </strong>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <span class="stat-label">
+        Стандарт
+      </span>
+
+      <strong>
+        ERC-20
+      </strong>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <span class="stat-label">
+        Екосистема
+      </span>
+
+      <strong>
+        BVM · UNO · TVO
+      </strong>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ECOSYSTEM
+     ========================================================= -->
+
+<section
+  class="section"
+  id="ecosystem"
+>
+
+  <div class="container">
+
+
+    <p class="eyebrow">
+      LAKI TOKEN ECOSYSTEM
+    </p>
+
+
+    <h2>
+      Три токени. Одна екосистема.
+    </h2>
+
+
+
+    <div class="cards">
+
+
+
+      <!-- =================================================
+           BVM
+           ================================================= -->
+
+      <article
+        class="card"
+        id="bvm"
+      >
+
+
+        <!--
+          Це НОВИЙ bvm-logo.png,
+          який ми щойно додали в GitHub.
+        -->
 
         <img
-          src="logo-bvm.png"
-          alt="Laki BVM logo">
-
-      </div>
-
-    </div>
-
-  </section>
+          class="token-logo"
+          src="bvm-logo.png"
+          alt="BVM official token logo"
+        >
 
 
-
-  <!-- =====================================================
-       MAIN STATS
-       ===================================================== -->
-
-  <section class="section">
-
-    <div class="container stats">
+        <p class="eyebrow">
+          MAIN TOKEN
+        </p>
 
 
-      <div class="stat">
-
-        <span class="stat-label">
-          Мережа
-        </span>
-
-        <strong>
-          Ethereum
-        </strong>
-
-      </div>
-
-
-      <div class="stat">
-
-        <span class="stat-label">
-          Основний токен
-        </span>
-
-        <strong>
+        <h3>
           BVM
-        </strong>
-
-      </div>
+        </h3>
 
 
-      <div class="stat">
-
-        <span class="stat-label">
-          Стандарт
-        </span>
-
-        <strong>
-          ERC-20
-        </strong>
-
-      </div>
+        <p>
+          <strong>
+            Основний токен
+          </strong>
+        </p>
 
 
-      <div class="stat">
+        <p>
 
-        <span class="stat-label">
-          Екосистема
-        </span>
+          Центральний токен Laki Token Ecosystem
+          на Ethereum.
 
-        <strong>
-          BVM · UNO · TVO
-        </strong>
+          BVM використовується як основний актив
+          проєкту та пов'язаний з розвитком
+          екосистеми Laki.
 
-      </div>
-
-
-    </div>
-
-  </section>
+        </p>
 
 
-
-  <!-- =====================================================
-       TOKEN ECOSYSTEM
-       ===================================================== -->
-
-  <section class="section"
-           id="ecosystem">
-
-    <div class="container">
-
-
-      <p class="eyebrow">
-        LAKI TOKEN ECOSYSTEM
-      </p>
-
-
-      <h2>
-        Три токени. Одна екосистема.
-      </h2>
-
-
-      <div class="cards">
-
-
-        <!-- BVM -->
-
-        <article class="card">
-
-          <h3>
-            BVM
-          </h3>
-
-          <p>
-            <strong>
-              Основний токен
-            </strong>
-          </p>
-
-          <p>
-
-            Центральний токен Laki Token Ecosystem
-            на Ethereum.
-
-            Використовується як основний актив
-            проєкту та пов'язаний з ліквідністю
-            екосистеми.
-
-          </p>
-
-        </article>
-
-
-
-        <!-- =================================================
-             UNO
-             ================================================= -->
-
-        <article class="card"
-                 id="uno">
-
-
-          <img
-            src="uno-logo.png"
-            alt="Streng UNO official token logo"
-            style="
-              display:block;
-              width:min(100%,360px);
-              height:auto;
-              margin:0 auto 24px;
-              border-radius:50%;
-            ">
-
-
-          <p class="eyebrow">
-            COMMUNITY TOKEN
-          </p>
-
-
-          <h3>
-
-            Streng UNO
-
-            <span style="opacity:.7;">
-              (UNO)
-            </span>
-
-          </h3>
+        <div class="token-details">
 
 
           <p>
-
-            UNO — community та rewards-токен
-            екосистеми Laki.
-
-            Він призначений для програм активності
-            спільноти, винагород та майбутніх
-            користувацьких кампаній.
-
-          </p>
-
-
-
-          <div class="token-details">
-
-
-            <p>
-              <strong>Назва:</strong>
-              Streng UNO
-            </p>
-
-
-            <p>
-              <strong>Символ:</strong>
-              UNO
-            </p>
-
-
-            <p>
-              <strong>Мережа:</strong>
-              Ethereum Mainnet
-            </p>
-
-
-            <p>
-              <strong>Стандарт:</strong>
-              ERC-20
-            </p>
-
-
-            <p>
-              <strong>Max Total Supply:</strong>
-              100,000,000 UNO
-            </p>
-
-
-            <p>
-
-              <strong>
-                Контракт:
-              </strong>
-
-              <br>
-
-              <code id="unoContract">
-                0x83b67e7a52E70975495Ca9f0765fB92905f40f17
-              </code>
-
-            </p>
-
-
-          </div>
-
-
-
-          <div class="actions">
-
-
-            <a
-              class="btn primary"
-              href="https://etherscan.io/token/0x83b67e7a52E70975495Ca9f0765fB92905f40f17"
-              target="_blank"
-              rel="noopener">
-
-              UNO на Etherscan
-
-            </a>
-
-
-
-            <a
-              class="btn ghost"
-              href="uno-logo.png"
-              download="Streng-UNO-logo.png"
-              title="Завантажити офіційний логотип Streng UNO">
-
-              Зберегти логотип UNO
-
-            </a>
-
-
-          </div>
-
-
-
-          <p style="margin-top:18px;">
-
-            <small>
-
-              Офіційний файл логотипа:
-
-              <a
-                href="uno-logo.png"
-                target="_blank"
-                rel="noopener">
-
-                uno-logo.png
-
-              </a>
-
-            </small>
-
-          </p>
-
-
-        </article>
-
-
-
-        <!-- TVO -->
-
-        <article class="card">
-
-          <h3>
-            TVO
-          </h3>
-
-          <p>
-            <strong>
-              Ecosystem Token
-            </strong>
-          </p>
-
-          <p>
-
-            Додатковий Ethereum ERC-20 токен
-            екосистеми Laki.
-
-            На поточному етапі TVO
-            не використовується у програмі
-            реєстраційних винагород.
-
-          </p>
-
-        </article>
-
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       BVM DETAILS
-       ===================================================== -->
-
-  <section class="section"
-           id="bvm">
-
-    <div class="container">
-
-
-      <p class="eyebrow">
-        MAIN TOKEN
-      </p>
-
-
-      <h2>
-        Laki BVM
-      </h2>
-
-
-      <div class="cards">
-
-
-        <article class="card">
-
-
-          <h3>
-            Параметри BVM
-          </h3>
-
-
-          <p>
-            <strong>Name:</strong>
+            <strong>Назва:</strong>
             Laki
           </p>
 
 
           <p>
-            <strong>Symbol:</strong>
+            <strong>Символ:</strong>
             BVM
           </p>
 
 
           <p>
-            <strong>Network:</strong>
+            <strong>Мережа:</strong>
             Ethereum Mainnet
           </p>
 
 
           <p>
-            <strong>Standard:</strong>
+            <strong>Стандарт:</strong>
             ERC-20
           </p>
 
@@ -534,230 +573,24 @@
           </p>
 
 
-        </article>
-
-
-
-        <article class="card">
-
-
-          <h3>
-            Контракт BVM
-          </h3>
-
-
           <p>
 
-            <code id="bvmContract">
-              0xC02cd09C60aBc64b0C77720326597430e118B4C1
-            </code>
+            <strong>
+              Контракт:
+            </strong>
+
+            <br>
+
+            <code
+              class="token-contract"
+              id="bvmContract"
+            >0xC02cd09C60aBc64b0C77720326597430e118B4C1</code>
 
           </p>
 
 
-          <button
-            class="btn ghost"
-            type="button"
-            onclick="
-              navigator.clipboard.writeText(
-                document
-                  .getElementById('bvmContract')
-                  .textContent
-                  .trim()
-              )
-            ">
+        </div>
 
-            Копіювати адресу
-
-          </button>
-
-
-        </article>
-
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       TRANSPARENCY
-       ===================================================== -->
-
-  <section class="section"
-           id="transparency">
-
-    <div class="container">
-
-
-      <p class="eyebrow">
-        TRANSPARENCY
-      </p>
-
-
-      <h2>
-        Прозорість
-      </h2>
-
-
-      <div class="cards">
-
-
-        <article class="card">
-
-          <h3>
-            Ethereum
-          </h3>
-
-          <p>
-
-            Токени екосистеми працюють
-            у мережі Ethereum.
-
-            Дані контрактів і транзакцій
-            можна перевіряти через
-            блокчейн-експлорер.
-
-          </p>
-
-        </article>
-
-
-
-        <article class="card">
-
-          <h3>
-            BVM
-          </h3>
-
-          <p>
-
-            BVM залишається основним
-            токеном проєкту.
-
-            Інформація про контракт
-            і ліквідність публікується
-            на офіційному сайті.
-
-          </p>
-
-        </article>
-
-
-
-        <article class="card">
-
-          <h3>
-            UNO
-          </h3>
-
-          <p>
-
-            Для Streng UNO на сайті
-            публікуються контракт,
-            офіційний логотип та
-            пряме посилання на Etherscan.
-
-          </p>
-
-        </article>
-
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       WALLET
-       ===================================================== -->
-
-  <section class="section"
-           id="wallet">
-
-    <div class="container">
-
-
-      <p class="eyebrow">
-        WEB3
-      </p>
-
-
-      <h2>
-        Гаманець та майбутня реєстрація
-      </h2>
-
-
-      <div class="card">
-
-
-        <p>
-
-          Наступний етап розвитку сайту —
-          підключення Ethereum-гаманця,
-          створення профілю користувача
-          та система винагород екосистеми.
-
-        </p>
-
-
-        <p>
-
-          UNO планується використовувати
-          як основний токен для
-          community/rewards-механік.
-
-          BVM залишатиметься більш
-          обмеженим основним токеном
-          екосистеми.
-
-        </p>
-
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       LIQUIDITY
-       ===================================================== -->
-
-  <section class="section"
-           id="liquidity">
-
-    <div class="container">
-
-
-      <p class="eyebrow">
-        LIQUIDITY
-      </p>
-
-
-      <h2>
-        Ліквідність BVM
-      </h2>
-
-
-      <div class="card">
-
-
-        <p>
-
-          Інформація про BVM та доступні
-          торгові маршрути перевіряється
-          через Ethereum та Uniswap.
-
-        </p>
 
 
         <div class="actions">
@@ -765,11 +598,12 @@
 
           <a
             class="btn primary"
-            href="https://app.uniswap.org/"
+            href="https://etherscan.io/token/0xC02cd09C60aBc64b0C77720326597430e118B4C1"
             target="_blank"
-            rel="noopener">
+            rel="noopener"
+          >
 
-            Відкрити Uniswap
+            BVM на Etherscan
 
           </a>
 
@@ -777,218 +611,848 @@
         </div>
 
 
-      </div>
+      </article>
+
+
+
+      <!-- =================================================
+           UNO
+           ================================================= -->
+
+      <article
+        class="card"
+        id="uno"
+      >
+
+
+        <img
+          class="token-logo"
+          src="uno-logo.png"
+          alt="Streng UNO official token logo"
+        >
+
+
+        <p class="eyebrow">
+          COMMUNITY TOKEN
+        </p>
+
+
+        <h3>
+
+          Streng UNO
+
+          <span style="opacity:.7;">
+            (UNO)
+          </span>
+
+        </h3>
+
+
+
+        <p>
+
+          UNO — community та rewards-токен
+          екосистеми Laki.
+
+          Він призначений для програм активності
+          спільноти, винагород та майбутніх
+          користувацьких кампаній.
+
+        </p>
+
+
+
+        <div class="token-details">
+
+
+          <p>
+            <strong>Назва:</strong>
+            Streng UNO
+          </p>
+
+
+          <p>
+            <strong>Символ:</strong>
+            UNO
+          </p>
+
+
+          <p>
+            <strong>Мережа:</strong>
+            Ethereum Mainnet
+          </p>
+
+
+          <p>
+            <strong>Стандарт:</strong>
+            ERC-20
+          </p>
+
+
+          <p>
+            <strong>Max Total Supply:</strong>
+            100,000,000 UNO
+          </p>
+
+
+          <p>
+
+            <strong>
+              Контракт:
+            </strong>
+
+            <br>
+
+            <code
+              class="token-contract"
+              id="unoContract"
+            >0x83b67e7a52E70975495Ca9f0765fB92905f40f17</code>
+
+          </p>
+
+
+        </div>
+
+
+
+        <div class="actions">
+
+
+          <a
+            class="btn primary"
+            href="https://etherscan.io/token/0x83b67e7a52E70975495Ca9f0765fB92905f40f17"
+            target="_blank"
+            rel="noopener"
+          >
+
+            UNO на Etherscan
+
+          </a>
+
+
+        </div>
+
+
+      </article>
+
+
+
+      <!-- =================================================
+           TVO
+           ================================================= -->
+
+      <article class="card">
+
+
+        <p class="eyebrow">
+          ECOSYSTEM TOKEN
+        </p>
+
+
+        <h3>
+          TVO
+        </h3>
+
+
+        <p>
+
+          Додатковий Ethereum ERC-20 токен
+          екосистеми Laki.
+
+          На поточному етапі TVO
+          не використовується у програмі
+          реєстраційних винагород.
+
+        </p>
+
+
+        <p>
+
+          <strong>
+            Контракт:
+          </strong>
+
+          <br>
+
+          <code class="token-contract">
+            0x23f9093c9CFD9acAc0359D26C69c5A0B79b3ccC1
+          </code>
+
+        </p>
+
+
+      </article>
+
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
 
-  <!-- =====================================================
-       OFFICIAL LINKS
-       ===================================================== -->
+<!-- =========================================================
+     WEB3 WALLET
+     ========================================================= -->
 
-  <section class="section"
-           id="official">
+<section
+  class="section"
+  id="wallet"
+>
 
-    <div class="container">
+  <div class="container">
 
 
-      <p class="eyebrow">
-        OFFICIAL
+    <p class="eyebrow">
+      WEB3 ACCOUNT
+    </p>
+
+
+    <h2>
+      Підключення гаманця
+    </h2>
+
+
+    <div class="wallet-panel">
+
+
+      <div class="wallet-connect-box">
+
+
+        <h3>
+          Laki Web3
+        </h3>
+
+
+        <p>
+
+          Підключіть Ethereum-гаманець,
+          щоб підготувати свій Web3-профіль
+          у Laki Token Ecosystem.
+
+        </p>
+
+
+        <p>
+
+          Підключення гаманця саме по собі
+          не виконує переказів токенів
+          і не потребує передачі seed-фрази
+          або приватного ключа.
+
+        </p>
+
+
+
+        <div class="wallet-actions">
+
+
+          <button
+            class="btn primary"
+            id="connectWalletButton"
+            type="button"
+          >
+
+            Підключити гаманець
+
+          </button>
+
+
+
+          <button
+            class="btn ghost"
+            id="disconnectWalletButton"
+            type="button"
+            hidden
+          >
+
+            Від'єднати
+
+          </button>
+
+
+        </div>
+
+
+
+        <div
+          class="wallet-status"
+          id="walletStatus"
+        >
+
+
+          <span class="wallet-status-label">
+            Статус
+          </span>
+
+
+          <strong id="walletStatusText">
+            Гаманець не підключено
+          </strong>
+
+
+          <div
+            id="connectedWalletInfo"
+            hidden
+          >
+
+
+            <p>
+
+              <span class="wallet-status-label">
+                Адреса
+              </span>
+
+              <code
+                class="wallet-address"
+                id="connectedWalletAddress"
+              ></code>
+
+            </p>
+
+
+            <p>
+
+              <span class="wallet-status-label">
+                Мережа
+              </span>
+
+              <strong id="connectedNetwork">
+                —
+              </strong>
+
+            </p>
+
+
+          </div>
+
+
+
+          <p
+            class="wallet-success"
+            id="walletSuccess"
+            hidden
+          >
+
+            ✓ Ethereum-гаманець підключено.
+
+          </p>
+
+
+
+          <p
+            class="wallet-error"
+            id="walletError"
+            hidden
+          ></p>
+
+
+        </div>
+
+
+
+        <!--
+          Цей блок стане справжньою закритою
+          зоною після додавання серверної
+          реєстрації.
+
+          ЗАРАЗ тут немає download-посилань.
+        -->
+
+        <div
+          class="registered-content"
+          id="registeredContent"
+          hidden
+        >
+
+
+          <p class="eyebrow">
+            MEMBER AREA
+          </p>
+
+
+          <h3>
+            Матеріали користувача
+          </h3>
+
+
+          <p>
+
+            Гаманець підключено.
+
+            На наступному етапі тут буде
+            створюватися зареєстрований
+            профіль користувача.
+
+          </p>
+
+
+
+          <div class="cards">
+
+
+            <article class="card">
+
+
+              <img
+                class="member-logo-preview"
+                src="bvm-logo.png"
+                alt="BVM logo preview"
+              >
+
+
+              <h3>
+                BVM
+              </h3>
+
+
+              <p>
+                Офіційний користувацький
+                логотип BVM підготовлений.
+              </p>
+
+
+              <p>
+                <strong>
+                  Завантаження:
+                </strong>
+                після реєстрації.
+              </p>
+
+
+            </article>
+
+
+
+            <article class="card">
+
+
+              <img
+                class="member-logo-preview"
+                src="uno-logo.png"
+                alt="Streng UNO logo preview"
+              >
+
+
+              <h3>
+                Streng UNO
+              </h3>
+
+
+              <p>
+                Офіційний користувацький
+                логотип UNO підготовлений.
+              </p>
+
+
+              <p>
+                <strong>
+                  Завантаження:
+                </strong>
+                після реєстрації.
+              </p>
+
+
+            </article>
+
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRANSPARENCY
+     ========================================================= -->
+
+<section
+  class="section"
+  id="transparency"
+>
+
+  <div class="container">
+
+
+    <p class="eyebrow">
+      TRANSPARENCY
+    </p>
+
+
+    <h2>
+      Прозорість
+    </h2>
+
+
+
+    <div class="cards">
+
+
+      <article class="card">
+
+        <h3>
+          Ethereum
+        </h3>
+
+        <p>
+
+          Токени екосистеми працюють
+          у мережі Ethereum.
+
+          Дані контрактів і транзакцій
+          можна перевіряти через
+          блокчейн-експлорер.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="card">
+
+        <h3>
+          BVM
+        </h3>
+
+        <p>
+
+          BVM залишається основним
+          токеном проєкту.
+
+          На сайті публікується інформація
+          про токен та його екосистему.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="card">
+
+        <h3>
+          UNO
+        </h3>
+
+        <p>
+
+          Для Streng UNO на сайті
+          публікуються основні параметри,
+          контракт та офіційне
+          зображення токена.
+
+        </p>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LIQUIDITY
+     ========================================================= -->
+
+<section
+  class="section"
+  id="liquidity"
+>
+
+  <div class="container">
+
+
+    <p class="eyebrow">
+      LIQUIDITY
+    </p>
+
+
+    <h2>
+      Ліквідність BVM
+    </h2>
+
+
+    <div class="card">
+
+
+      <p>
+
+        Інформація про BVM
+        та доступні торгові маршрути
+        перевіряється через Ethereum
+        та Uniswap.
+
       </p>
 
 
-      <h2>
-        Офіційні посилання
-      </h2>
+
+      <div class="actions">
 
 
-      <div class="cards">
+        <a
+          class="btn primary"
+          href="https://app.uniswap.org/"
+          target="_blank"
+          rel="noopener"
+        >
 
+          Відкрити Uniswap
 
-        <article class="card">
-
-
-          <h3>
-            Website
-          </h3>
-
-
-          <p>
-
-            bilugahaits-lab.github.io/Laki-BVM/
-
-          </p>
-
-
-        </article>
-
-
-
-        <article class="card">
-
-
-          <h3>
-            Contact
-          </h3>
-
-
-          <p>
-
-            <a href="mailto:lakibvm.official@ukr.net">
-
-              lakibvm.official@ukr.net
-
-            </a>
-
-          </p>
-
-
-        </article>
-
-
-
-        <article class="card">
-
-
-          <h3>
-            UNO Logo
-          </h3>
-
-
-          <p>
-
-            <a
-              href="uno-logo.png"
-              target="_blank"
-              rel="noopener">
-
-              High-resolution PNG
-
-            </a>
-
-          </p>
-
-
-          <p>
-
-            <a
-              href="uno-logo-64.png"
-              target="_blank"
-              rel="noopener">
-
-              64×64 PNG
-
-            </a>
-
-          </p>
-
-
-        </article>
+        </a>
 
 
       </div>
 
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       ROADMAP
-       ===================================================== -->
-
-  <section class="section"
-           id="roadmap">
-
-    <div class="container">
-
-
-      <p class="eyebrow">
-        ROADMAP
-      </p>
-
-
-      <h2>
-        Наступні етапи
-      </h2>
-
-
-      <div class="cards">
-
-
-        <article class="card">
-
-          <h3>
-            Token Ecosystem
-          </h3>
-
-          <p>
-
-            BVM, UNO та TVO об'єднані
-            на одному офіційному сайті.
-
-          </p>
-
-        </article>
-
-
-
-        <article class="card">
-
-          <h3>
-            User Accounts
-          </h3>
-
-          <p>
-
-            Підключення Web3-гаманця
-            та створення профілю користувача.
-
-          </p>
-
-        </article>
-
-
-
-        <article class="card">
-
-          <h3>
-            Rewards
-          </h3>
-
-          <p>
-
-            Майбутня система
-            community-винагород
-            з використанням UNO.
-
-          </p>
-
-        </article>
-
-
-      </div>
 
     </div>
 
-  </section>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     OFFICIAL
+     ========================================================= -->
+
+<section
+  class="section"
+  id="official"
+>
+
+  <div class="container">
+
+
+    <p class="eyebrow">
+      OFFICIAL
+    </p>
+
+
+    <h2>
+      Офіційна інформація
+    </h2>
+
+
+
+    <div class="cards">
+
+
+      <article class="card">
+
+
+        <h3>
+          Website
+        </h3>
+
+
+        <p>
+          bilugahaits-lab.github.io/Laki-BVM/
+        </p>
+
+
+      </article>
+
+
+
+      <article class="card">
+
+
+        <h3>
+          Contact
+        </h3>
+
+
+        <p>
+
+          <a
+            href="mailto:lakibvm.official@ukr.net"
+          >
+
+            lakibvm.official@ukr.net
+
+          </a>
+
+        </p>
+
+
+      </article>
+
+
+
+      <article class="card">
+
+
+        <h3>
+          Token Assets
+        </h3>
+
+
+        <p>
+
+          Офіційні логотипи
+          BVM та UNO використовуються
+          на цьому сайті.
+
+        </p>
+
+
+        <p>
+
+          Завантаження користувацьких
+          матеріалів буде доступне
+          через зареєстрований профіль.
+
+        </p>
+
+
+      </article>
+
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ROADMAP
+     ========================================================= -->
+
+<section
+  class="section"
+  id="roadmap"
+>
+
+  <div class="container">
+
+
+    <p class="eyebrow">
+      ROADMAP
+    </p>
+
+
+    <h2>
+      Наступні етапи
+    </h2>
+
+
+
+    <div class="cards">
+
+
+      <article class="card">
+
+
+        <h3>
+          Token Ecosystem
+        </h3>
+
+
+        <p>
+
+          BVM, UNO та TVO
+          об'єднані на одному
+          офіційному сайті.
+
+        </p>
+
+
+      </article>
+
+
+
+      <article class="card">
+
+
+        <h3>
+          User Accounts
+        </h3>
+
+
+        <p>
+
+          Web3-реєстрація,
+          перевірка володіння
+          Ethereum-гаманцем
+          та профіль користувача.
+
+        </p>
+
+
+      </article>
+
+
+
+      <article class="card">
+
+
+        <h3>
+          Rewards
+        </h3>
+
+
+        <p>
+
+          Майбутня система
+          community-винагород
+          з використанням UNO.
+
+        </p>
+
+
+      </article>
+
+
+    </div>
+
+
+  </div>
+
+</section>
+
 
 
 </main>
 
 
 
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
 <footer class="site-footer">
 
   <div class="container">
 
     <p>
+
       © Laki Token Ecosystem ·
-      BVM · UNO · TVO · Ethereum ERC-20
+      BVM · UNO · TVO ·
+      Ethereum ERC-20
+
     </p>
 
   </div>
@@ -996,7 +1460,463 @@
 </footer>
 
 
+
+<!-- =========================================================
+     EXISTING SITE SCRIPT
+     ========================================================= -->
+
 <script src="script.js"></script>
 
+
+
+<!-- =========================================================
+     WALLET CONNECTION
+     ========================================================= -->
+
+<script>
+
+(function () {
+
+  "use strict";
+
+
+  const connectButton =
+    document.getElementById(
+      "connectWalletButton"
+    );
+
+
+  const disconnectButton =
+    document.getElementById(
+      "disconnectWalletButton"
+    );
+
+
+  const statusText =
+    document.getElementById(
+      "walletStatusText"
+    );
+
+
+  const walletInfo =
+    document.getElementById(
+      "connectedWalletInfo"
+    );
+
+
+  const walletAddress =
+    document.getElementById(
+      "connectedWalletAddress"
+    );
+
+
+  const networkText =
+    document.getElementById(
+      "connectedNetwork"
+    );
+
+
+  const successText =
+    document.getElementById(
+      "walletSuccess"
+    );
+
+
+  const errorText =
+    document.getElementById(
+      "walletError"
+    );
+
+
+  const registeredContent =
+    document.getElementById(
+      "registeredContent"
+    );
+
+
+
+  let currentAccount = null;
+
+
+
+  function clearError() {
+
+    errorText.hidden = true;
+    errorText.textContent = "";
+
+  }
+
+
+
+  function showError(message) {
+
+    errorText.textContent = message;
+    errorText.hidden = false;
+
+  }
+
+
+
+  function shortenAddress(address) {
+
+    if (!address) {
+      return "";
+    }
+
+    return (
+      address.slice(0, 6) +
+      "..." +
+      address.slice(-4)
+    );
+
+  }
+
+
+
+  function getNetworkName(chainId) {
+
+    const networks = {
+
+      "0x1":
+        "Ethereum Mainnet",
+
+      "0xaa36a7":
+        "Sepolia",
+
+      "0x89":
+        "Polygon",
+
+      "0xa":
+        "Optimism",
+
+      "0xa4b1":
+        "Arbitrum One",
+
+      "0x2105":
+        "Base"
+
+    };
+
+
+    return (
+      networks[chainId] ||
+      "Chain ID: " + chainId
+    );
+
+  }
+
+
+
+  async function updateWalletUI(account) {
+
+    if (!account) {
+
+      currentAccount = null;
+
+      statusText.textContent =
+        "Гаманець не підключено";
+
+      walletInfo.hidden = true;
+
+      successText.hidden = true;
+
+      disconnectButton.hidden = true;
+
+      registeredContent.hidden = true;
+
+      connectButton.hidden = false;
+
+      return;
+
+    }
+
+
+    currentAccount = account;
+
+
+    let chainId = null;
+
+
+    try {
+
+      chainId =
+        await window.ethereum.request({
+          method: "eth_chainId"
+        });
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+
+    statusText.textContent =
+      "Підключено: " +
+      shortenAddress(account);
+
+
+    walletAddress.textContent =
+      account;
+
+
+    networkText.textContent =
+      chainId
+        ? getNetworkName(chainId)
+        : "Невідомо";
+
+
+    walletInfo.hidden = false;
+
+    successText.hidden = false;
+
+    disconnectButton.hidden = false;
+
+    connectButton.hidden = true;
+
+
+    /*
+      ВАЖЛИВО:
+
+      Це поки лише UI після
+      підключення гаманця.
+
+      Це НЕ справжня серверна
+      авторизація.
+
+      Download-кнопок тут немає.
+    */
+
+    registeredContent.hidden = false;
+
+  }
+
+
+
+  async function connectWallet() {
+
+    clearError();
+
+
+    if (
+      typeof window.ethereum ===
+      "undefined"
+    ) {
+
+      showError(
+        "Web3-гаманець не знайдено. " +
+        "Відкрийте сайт у браузері гаманця " +
+        "або використайте сумісний Ethereum-гаманець."
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      statusText.textContent =
+        "Очікуємо підтвердження у гаманці...";
+
+
+      const accounts =
+        await window.ethereum.request({
+
+          method:
+            "eth_requestAccounts"
+
+        });
+
+
+      if (
+        !accounts ||
+        accounts.length === 0
+      ) {
+
+        throw new Error(
+          "Wallet account not returned"
+        );
+
+      }
+
+
+      await updateWalletUI(
+        accounts[0]
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      statusText.textContent =
+        "Гаманець не підключено";
+
+
+      if (
+        error &&
+        error.code === 4001
+      ) {
+
+        showError(
+          "Підключення скасовано користувачем."
+        );
+
+      } else {
+
+        showError(
+          "Не вдалося підключити гаманець. Спробуйте ще раз."
+        );
+
+      }
+
+    }
+
+  }
+
+
+
+  function disconnectWallet() {
+
+    /*
+      MetaMask та більшість injected wallets
+      не мають універсального методу
+      примусового disconnect із сайту.
+
+      Тому ми очищаємо локальний стан
+      інтерфейсу.
+
+      Реальні сесії додамо разом
+      із серверною авторизацією.
+    */
+
+    clearError();
+
+    updateWalletUI(null);
+
+  }
+
+
+
+  async function checkExistingConnection() {
+
+    if (
+      typeof window.ethereum ===
+      "undefined"
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      const accounts =
+        await window.ethereum.request({
+
+          method:
+            "eth_accounts"
+
+        });
+
+
+      if (
+        accounts &&
+        accounts.length > 0
+      ) {
+
+        await updateWalletUI(
+          accounts[0]
+        );
+
+      }
+
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+
+
+  connectButton.addEventListener(
+    "click",
+    connectWallet
+  );
+
+
+  disconnectButton.addEventListener(
+    "click",
+    disconnectWallet
+  );
+
+
+
+  if (
+    typeof window.ethereum !==
+    "undefined"
+  ) {
+
+
+    window.ethereum.on(
+      "accountsChanged",
+      function (accounts) {
+
+        if (
+          !accounts ||
+          accounts.length === 0
+        ) {
+
+          updateWalletUI(null);
+
+          return;
+
+        }
+
+
+        updateWalletUI(
+          accounts[0]
+        );
+
+      }
+    );
+
+
+
+    window.ethereum.on(
+      "chainChanged",
+      function () {
+
+        if (currentAccount) {
+
+          updateWalletUI(
+            currentAccount
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+
+  checkExistingConnection();
+
+
+})();
+
+</script>
+
+
+
 </body>
-  </html>
+
+      </html>
