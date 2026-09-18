@@ -2,21 +2,18 @@ import { createAppKit } from '@reown/appkit';
 import { mainnet } from '@reown/appkit/networks';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import {
-  BrowserProvider,
-  verifyMessage
+  BrowserProvider
 } from 'ethers';
 
 
 // ============================================================
-// REOWN PROJECT
+// REOWN / WALLETCONNECT
 // ============================================================
 
 const projectId =
   '36ca0c4456b56fb5f98584d1d736e7ae';
 
-
 const metadata = {
-
   name: 'Laki Token Ecosystem',
 
   description:
@@ -28,8 +25,21 @@ const metadata = {
   icons: [
     'https://bilugahaits-lab.github.io/Laki-BVM/logo-bvm.png'
   ]
-
 };
+
+
+// ============================================================
+// SUPABASE EDGE FUNCTIONS
+// ============================================================
+
+const SUPABASE_FUNCTIONS_URL =
+  'https://xbgjgzijlykgsjfsasoz.supabase.co/functions/v1';
+
+const CREATE_NONCE_URL =
+  `${SUPABASE_FUNCTIONS_URL}/create-wallet-nonce`;
+
+const REGISTER_WALLET_URL =
+  `${SUPABASE_FUNCTIONS_URL}/register-wallet`;
 
 
 // ============================================================
@@ -37,7 +47,6 @@ const metadata = {
 // ============================================================
 
 const modal = createAppKit({
-
   adapters: [
     new EthersAdapter()
   ],
@@ -56,12 +65,11 @@ const modal = createAppKit({
   features: {
     analytics: true
   }
-
 });
 
 
 // ============================================================
-// ELEMENTS
+// HTML ELEMENTS
 // ============================================================
 
 const connectButton =
@@ -69,30 +77,25 @@ const connectButton =
     'connectWalletButton'
   );
 
-
 const disconnectButton =
   document.getElementById(
     'disconnectWalletButton'
   );
-
 
 const walletStatus =
   document.getElementById(
     'walletStatus'
   );
 
-
 const registerButton =
   document.getElementById(
     'registerWalletButton'
   );
 
-
 const registrationStatus =
   document.getElementById(
     'registrationStatus'
   );
-
 
 const registeredContent =
   document.getElementById(
@@ -108,11 +111,10 @@ let currentAddress = null;
 
 
 // ============================================================
-// SHORT ADDRESS
+// HELPERS
 // ============================================================
 
 function shortAddress(address) {
-
   if (!address) {
     return '';
   }
@@ -122,156 +124,90 @@ function shortAddress(address) {
     '...' +
     address.slice(-4)
   );
-
 }
 
-
-// ============================================================
-// REGISTRATION RESET
-// ============================================================
 
 function resetRegistration() {
-
   if (registerButton) {
-
     registerButton.hidden = false;
-
     registerButton.disabled = false;
-
   }
-
 
   if (registrationStatus) {
-
     registrationStatus.hidden = true;
-
     registrationStatus.textContent = '';
-
   }
-
 
   if (registeredContent) {
-
     registeredContent.hidden = true;
-
   }
-
 }
 
-
-// ============================================================
-// DISCONNECTED STATE
-// ============================================================
 
 function showDisconnected() {
-
   currentAddress = null;
 
-
   if (connectButton) {
-
     connectButton.hidden = false;
-
   }
-
 
   if (disconnectButton) {
-
     disconnectButton.hidden = true;
-
   }
-
 
   if (walletStatus) {
-
     walletStatus.hidden = true;
-
     walletStatus.textContent = '';
-
   }
-
 
   if (registerButton) {
-
     registerButton.hidden = true;
-
     registerButton.disabled = false;
-
   }
-
 
   if (registrationStatus) {
-
     registrationStatus.hidden = true;
-
     registrationStatus.textContent = '';
-
   }
-
 
   if (registeredContent) {
-
     registeredContent.hidden = true;
-
   }
-
 }
 
 
-// ============================================================
-// CONNECTED STATE
-// ============================================================
-
 function showConnected(address) {
-
   const addressChanged =
     currentAddress &&
     currentAddress.toLowerCase() !==
     address.toLowerCase();
 
-
   currentAddress = address;
 
-
   if (connectButton) {
-
     connectButton.hidden = true;
-
   }
-
 
   if (disconnectButton) {
-
     disconnectButton.hidden = false;
-
   }
 
-
   if (walletStatus) {
-
     walletStatus.hidden = false;
 
     walletStatus.textContent =
       'Підключено: ' +
       shortAddress(address) +
       ' · Ethereum Mainnet';
-
   }
-
 
   if (addressChanged) {
-
     resetRegistration();
-
   }
-
 
   if (registerButton) {
-
     registerButton.hidden = false;
-
   }
-
 }
 
 
@@ -280,42 +216,32 @@ function showConnected(address) {
 // ============================================================
 
 if (connectButton) {
-
   connectButton.addEventListener(
     'click',
     () => {
-
       modal.open();
-
     }
   );
-
 }
 
 
 // ============================================================
-// ACCOUNT LISTENER
+// ACCOUNT STATE
 // ============================================================
 
 modal.subscribeAccount(
   (account) => {
-
     if (
       account &&
       account.isConnected &&
       account.address
     ) {
-
       showConnected(
         account.address
       );
-
     } else {
-
       showDisconnected();
-
     }
-
   }
 );
 
@@ -325,147 +251,231 @@ modal.subscribeAccount(
 // ============================================================
 
 if (disconnectButton) {
-
   disconnectButton.addEventListener(
     'click',
     async () => {
-
       try {
-
         await modal.disconnect();
 
         showDisconnected();
-
       } catch (error) {
-
         console.error(
           'Wallet disconnect error:',
           error
         );
-
       }
-
     }
   );
-
 }
 
 
 // ============================================================
-// TEST REGISTRATION
+// REQUEST SERVER NONCE
+// ============================================================
+
+async function createWalletNonce(
+  walletAddress
+) {
+  const response =
+    await fetch(
+      CREATE_NONCE_URL,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type':
+            'application/json'
+        },
+
+        body: JSON.stringify({
+          wallet_address:
+            walletAddress
+        })
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data?.error ||
+      'Could not create nonce'
+    );
+  }
+
+  if (
+    !data?.nonce ||
+    !data?.expires_at
+  ) {
+    throw new Error(
+      'Invalid nonce response'
+    );
+  }
+
+  return data;
+}
+
+
+// ============================================================
+// SEND SIGNATURE TO SERVER
+// ============================================================
+
+async function registerWallet(
+  walletAddress,
+  nonce,
+  signature
+) {
+  const response =
+    await fetch(
+      REGISTER_WALLET_URL,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type':
+            'application/json'
+        },
+
+        body: JSON.stringify({
+          wallet_address:
+            walletAddress,
+
+          nonce,
+
+          signature
+        })
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (!response.ok) {
+    const error =
+      new Error(
+        data?.error ||
+        'Registration failed'
+      );
+
+    error.serverData = data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+
+// ============================================================
+// REAL WEB3 REGISTRATION
 // ============================================================
 
 if (registerButton) {
-
   registerButton.addEventListener(
     'click',
     async () => {
-
       if (!currentAddress) {
-
         return;
-
       }
 
-
       try {
-
         registerButton.disabled = true;
 
-
         if (registrationStatus) {
-
           registrationStatus.hidden = false;
 
           registrationStatus.textContent =
-            'Підтвердьте тестовий підпис у гаманці...';
-
+            'Створюємо захищений запит реєстрації...';
         }
 
 
         // ----------------------------------------------------
-        // GET ACTIVE WALLET PROVIDER
+        // 1. REQUEST NONCE FROM SUPABASE
+        // ----------------------------------------------------
+
+        const nonceData =
+          await createWalletNonce(
+            currentAddress
+          );
+
+        const nonce =
+          nonceData.nonce;
+
+        const expiresAt =
+          nonceData.expires_at;
+
+
+        // ----------------------------------------------------
+        // 2. GET CONNECTED WALLET PROVIDER
         // ----------------------------------------------------
 
         const walletProvider =
           modal.getWalletProvider();
 
-
         if (!walletProvider) {
-
           throw new Error(
             'Wallet provider not available'
           );
-
         }
-
-
-        // ----------------------------------------------------
-        // ETHERS PROVIDER
-        // ----------------------------------------------------
 
         const provider =
           new BrowserProvider(
             walletProvider
           );
 
-
         const signer =
           await provider.getSigner();
-
 
         const signerAddress =
           await signer.getAddress();
 
 
         // ----------------------------------------------------
-        // CHECK ACTIVE ADDRESS
+        // 3. VERIFY CONNECTED ADDRESS
         // ----------------------------------------------------
 
         if (
           signerAddress.toLowerCase() !==
           currentAddress.toLowerCase()
         ) {
-
           throw new Error(
             'Wallet address mismatch'
           );
-
         }
 
 
         // ----------------------------------------------------
-        // TEST REGISTRATION MESSAGE
+        // 4. MESSAGE TO SIGN
         // ----------------------------------------------------
 
         const message = [
-
-          'Laki BVM — тестова Web3-реєстрація',
-
+          'Laki BVM — Web3 Registration',
           '',
-
-          'Адреса: ' +
+          'Wallet: ' +
             currentAddress,
-
-          'Мережа: Ethereum Mainnet',
-
-          'Домен: bilugahaits-lab.github.io',
-
-          'Час: ' +
-            new Date().toISOString(),
-
+          'Network: Ethereum Mainnet',
+          'Chain ID: 1',
+          'Domain: bilugahaits-lab.github.io',
+          'Nonce: ' +
+            nonce,
+          'Expires At: ' +
+            expiresAt,
           '',
-
-          'Це тестовий підпис.',
-
-          'Він не виконує транзакцію та не надає дозволу на використання токенів.'
-
+          'Sign this message to register your wallet.',
+          'This signature does not perform a transaction',
+          'and does not authorize token transfers.'
         ].join('\n');
 
 
         // ----------------------------------------------------
-        // SIGN MESSAGE
+        // 5. SIGN MESSAGE IN METAMASK
         // ----------------------------------------------------
+
+        if (registrationStatus) {
+          registrationStatus.textContent =
+            'Підтвердьте підпис у гаманці...';
+        }
 
         const signature =
           await signer.signMessage(
@@ -474,101 +484,93 @@ if (registerButton) {
 
 
         // ----------------------------------------------------
-        // VERIFY SIGNATURE LOCALLY
+        // 6. SEND SIGNATURE TO SERVER
         // ----------------------------------------------------
 
-        const recoveredAddress =
-          verifyMessage(
-            message,
+        if (registrationStatus) {
+          registrationStatus.textContent =
+            'Перевіряємо підпис на сервері...';
+        }
+
+        const result =
+          await registerWallet(
+            currentAddress,
+            nonce,
             signature
           );
 
 
-        if (
-          recoveredAddress.toLowerCase() !==
-          currentAddress.toLowerCase()
-        ) {
+        // ----------------------------------------------------
+        // 7. SUCCESS
+        // ----------------------------------------------------
 
+        if (result?.success !== true) {
           throw new Error(
-            'Signature verification failed'
+            'Registration was not confirmed'
           );
-
         }
 
-
-        // ----------------------------------------------------
-        // SUCCESS
-        // ----------------------------------------------------
-
         if (registrationStatus) {
-
           registrationStatus.hidden = false;
 
           registrationStatus.textContent =
-            'Тестова реєстрація успішна.';
-
+            'Web3-реєстрація успішна.';
         }
-
 
         if (registeredContent) {
-
           registeredContent.hidden = false;
-
         }
-
 
         registerButton.hidden = true;
 
-
         console.log(
-          'Laki test registration successful:',
+          'Laki Web3 registration successful:',
           currentAddress
         );
 
       } catch (error) {
-
         console.error(
           'Registration error:',
           error
         );
 
-
         if (registrationStatus) {
-
           registrationStatus.hidden = false;
-
 
           if (
             error?.code === 4001 ||
-            error?.code === 'ACTION_REJECTED'
+            error?.code ===
+              'ACTION_REJECTED'
           ) {
-
             registrationStatus.textContent =
               'Підпис скасовано. Реєстрацію не виконано.';
 
-          } else {
-
+          } else if (
+            error?.serverData?.code ===
+              'ALREADY_REGISTERED' ||
+            String(
+              error?.message || ''
+            )
+              .toLowerCase()
+              .includes(
+                'already registered'
+              )
+          ) {
             registrationStatus.textContent =
-              'Не вдалося виконати тестову реєстрацію.';
+              'Цей гаманець уже зареєстрований.';
 
+          } else {
+            registrationStatus.textContent =
+              'Не вдалося виконати Web3-реєстрацію.';
           }
-
         }
 
-
         registerButton.disabled = false;
-
       }
-
     }
   );
-
 }
 
-
-// ============================================================
-// EXPORT
-// ============================================================
 
 export {
   modal
