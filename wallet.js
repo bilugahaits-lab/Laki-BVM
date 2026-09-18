@@ -1,19 +1,43 @@
 import { createAppKit } from '@reown/appkit';
 import { mainnet } from '@reown/appkit/networks';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
+import {
+  BrowserProvider,
+  verifyMessage
+} from 'ethers';
 
-const projectId = '36ca0c4456b56fb5f98584d1d736e7ae';
+
+// ============================================================
+// REOWN PROJECT
+// ============================================================
+
+const projectId =
+  '36ca0c4456b56fb5f98584d1d736e7ae';
+
 
 const metadata = {
+
   name: 'Laki Token Ecosystem',
-  description: 'Laki Token Ecosystem — BVM · UNO · TVO',
-  url: 'https://bilugahaits-lab.github.io/Laki-BVM/',
+
+  description:
+    'Laki Token Ecosystem — BVM · UNO · TVO',
+
+  url:
+    'https://bilugahaits-lab.github.io/Laki-BVM/',
+
   icons: [
     'https://bilugahaits-lab.github.io/Laki-BVM/logo-bvm.png'
   ]
+
 };
 
+
+// ============================================================
+// APPKIT
+// ============================================================
+
 const modal = createAppKit({
+
   adapters: [
     new EthersAdapter()
   ],
@@ -22,7 +46,8 @@ const modal = createAppKit({
     mainnet
   ],
 
-  defaultNetwork: mainnet,
+  defaultNetwork:
+    mainnet,
 
   metadata,
 
@@ -31,25 +56,59 @@ const modal = createAppKit({
   features: {
     analytics: true
   }
+
 });
 
 
 // ============================================================
-// ЕЛЕМЕНТИ САЙТУ
+// ELEMENTS
 // ============================================================
 
 const connectButton =
-  document.getElementById('connectWalletButton');
+  document.getElementById(
+    'connectWalletButton'
+  );
+
 
 const disconnectButton =
-  document.getElementById('disconnectWalletButton');
+  document.getElementById(
+    'disconnectWalletButton'
+  );
+
 
 const walletStatus =
-  document.getElementById('walletStatus');
+  document.getElementById(
+    'walletStatus'
+  );
+
+
+const registerButton =
+  document.getElementById(
+    'registerWalletButton'
+  );
+
+
+const registrationStatus =
+  document.getElementById(
+    'registrationStatus'
+  );
+
+
+const registeredContent =
+  document.getElementById(
+    'registeredContent'
+  );
 
 
 // ============================================================
-// СКОРОЧЕННЯ АДРЕСИ
+// CURRENT WALLET
+// ============================================================
+
+let currentAddress = null;
+
+
+// ============================================================
+// SHORT ADDRESS
 // ============================================================
 
 function shortAddress(address) {
@@ -63,43 +122,130 @@ function shortAddress(address) {
     '...' +
     address.slice(-4)
   );
+
 }
 
 
 // ============================================================
-// ГАМАНЕЦЬ НЕ ПІДКЛЮЧЕНИЙ
+// REGISTRATION RESET
+// ============================================================
+
+function resetRegistration() {
+
+  if (registerButton) {
+
+    registerButton.hidden = false;
+
+    registerButton.disabled = false;
+
+  }
+
+
+  if (registrationStatus) {
+
+    registrationStatus.hidden = true;
+
+    registrationStatus.textContent = '';
+
+  }
+
+
+  if (registeredContent) {
+
+    registeredContent.hidden = true;
+
+  }
+
+}
+
+
+// ============================================================
+// DISCONNECTED STATE
 // ============================================================
 
 function showDisconnected() {
 
+  currentAddress = null;
+
+
   if (connectButton) {
+
     connectButton.hidden = false;
+
   }
+
 
   if (disconnectButton) {
+
     disconnectButton.hidden = true;
+
   }
 
+
   if (walletStatus) {
+
     walletStatus.hidden = true;
+
     walletStatus.textContent = '';
+
   }
+
+
+  if (registerButton) {
+
+    registerButton.hidden = true;
+
+    registerButton.disabled = false;
+
+  }
+
+
+  if (registrationStatus) {
+
+    registrationStatus.hidden = true;
+
+    registrationStatus.textContent = '';
+
+  }
+
+
+  if (registeredContent) {
+
+    registeredContent.hidden = true;
+
+  }
+
 }
 
 
 // ============================================================
-// ГАМАНЕЦЬ ПІДКЛЮЧЕНИЙ
+// CONNECTED STATE
 // ============================================================
 
 function showConnected(address) {
 
+  const addressChanged =
+    currentAddress &&
+    currentAddress.toLowerCase() !==
+    address.toLowerCase();
+
+
+  currentAddress = address;
+
+
   if (connectButton) {
+
     connectButton.hidden = true;
+
   }
 
+
   if (disconnectButton) {
+
     disconnectButton.hidden = false;
+
   }
+
 
   if (walletStatus) {
 
@@ -109,12 +255,28 @@ function showConnected(address) {
       'Підключено: ' +
       shortAddress(address) +
       ' · Ethereum Mainnet';
+
   }
+
+
+  if (addressChanged) {
+
+    resetRegistration();
+
+  }
+
+
+  if (registerButton) {
+
+    registerButton.hidden = false;
+
+  }
+
 }
 
 
 // ============================================================
-// ПІДКЛЮЧЕННЯ
+// CONNECT WALLET
 // ============================================================
 
 if (connectButton) {
@@ -127,36 +289,39 @@ if (connectButton) {
 
     }
   );
+
 }
 
 
 // ============================================================
-// ВІДСТЕЖЕННЯ СТАНУ REOWN
+// ACCOUNT LISTENER
 // ============================================================
 
-modal.subscribeAccount((account) => {
+modal.subscribeAccount(
+  (account) => {
 
-  if (
-    account &&
-    account.isConnected &&
-    account.address
-  ) {
-
-    showConnected(
+    if (
+      account &&
+      account.isConnected &&
       account.address
-    );
+    ) {
 
-  } else {
+      showConnected(
+        account.address
+      );
 
-    showDisconnected();
+    } else {
+
+      showDisconnected();
+
+    }
 
   }
-
-});
+);
 
 
 // ============================================================
-// ВІДКЛЮЧЕННЯ
+// DISCONNECT WALLET
 // ============================================================
 
 if (disconnectButton) {
@@ -182,7 +347,229 @@ if (disconnectButton) {
 
     }
   );
+
 }
 
 
-export { modal };
+// ============================================================
+// TEST REGISTRATION
+// ============================================================
+
+if (registerButton) {
+
+  registerButton.addEventListener(
+    'click',
+    async () => {
+
+      if (!currentAddress) {
+
+        return;
+
+      }
+
+
+      try {
+
+        registerButton.disabled = true;
+
+
+        if (registrationStatus) {
+
+          registrationStatus.hidden = false;
+
+          registrationStatus.textContent =
+            'Підтвердьте тестовий підпис у гаманці...';
+
+        }
+
+
+        // ----------------------------------------------------
+        // GET ACTIVE WALLET PROVIDER
+        // ----------------------------------------------------
+
+        const walletProvider =
+          modal.getWalletProvider();
+
+
+        if (!walletProvider) {
+
+          throw new Error(
+            'Wallet provider not available'
+          );
+
+        }
+
+
+        // ----------------------------------------------------
+        // ETHERS PROVIDER
+        // ----------------------------------------------------
+
+        const provider =
+          new BrowserProvider(
+            walletProvider
+          );
+
+
+        const signer =
+          await provider.getSigner();
+
+
+        const signerAddress =
+          await signer.getAddress();
+
+
+        // ----------------------------------------------------
+        // CHECK ACTIVE ADDRESS
+        // ----------------------------------------------------
+
+        if (
+          signerAddress.toLowerCase() !==
+          currentAddress.toLowerCase()
+        ) {
+
+          throw new Error(
+            'Wallet address mismatch'
+          );
+
+        }
+
+
+        // ----------------------------------------------------
+        // TEST REGISTRATION MESSAGE
+        // ----------------------------------------------------
+
+        const message = [
+
+          'Laki BVM — тестова Web3-реєстрація',
+
+          '',
+
+          'Адреса: ' +
+            currentAddress,
+
+          'Мережа: Ethereum Mainnet',
+
+          'Домен: bilugahaits-lab.github.io',
+
+          'Час: ' +
+            new Date().toISOString(),
+
+          '',
+
+          'Це тестовий підпис.',
+
+          'Він не виконує транзакцію та не надає дозволу на використання токенів.'
+
+        ].join('\n');
+
+
+        // ----------------------------------------------------
+        // SIGN MESSAGE
+        // ----------------------------------------------------
+
+        const signature =
+          await signer.signMessage(
+            message
+          );
+
+
+        // ----------------------------------------------------
+        // VERIFY SIGNATURE LOCALLY
+        // ----------------------------------------------------
+
+        const recoveredAddress =
+          verifyMessage(
+            message,
+            signature
+          );
+
+
+        if (
+          recoveredAddress.toLowerCase() !==
+          currentAddress.toLowerCase()
+        ) {
+
+          throw new Error(
+            'Signature verification failed'
+          );
+
+        }
+
+
+        // ----------------------------------------------------
+        // SUCCESS
+        // ----------------------------------------------------
+
+        if (registrationStatus) {
+
+          registrationStatus.hidden = false;
+
+          registrationStatus.textContent =
+            'Тестова реєстрація успішна.';
+
+        }
+
+
+        if (registeredContent) {
+
+          registeredContent.hidden = false;
+
+        }
+
+
+        registerButton.hidden = true;
+
+
+        console.log(
+          'Laki test registration successful:',
+          currentAddress
+        );
+
+      } catch (error) {
+
+        console.error(
+          'Registration error:',
+          error
+        );
+
+
+        if (registrationStatus) {
+
+          registrationStatus.hidden = false;
+
+
+          if (
+            error?.code === 4001 ||
+            error?.code === 'ACTION_REJECTED'
+          ) {
+
+            registrationStatus.textContent =
+              'Підпис скасовано. Реєстрацію не виконано.';
+
+          } else {
+
+            registrationStatus.textContent =
+              'Не вдалося виконати тестову реєстрацію.';
+
+          }
+
+        }
+
+
+        registerButton.disabled = false;
+
+      }
+
+    }
+  );
+
+}
+
+
+// ============================================================
+// EXPORT
+// ============================================================
+
+export {
+  modal
+};
