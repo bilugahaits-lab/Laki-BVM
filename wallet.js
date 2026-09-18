@@ -324,7 +324,8 @@ async function createWalletNonce(
 async function registerWallet(
   walletAddress,
   nonce,
-  signature
+  signature,
+  message
 ) {
   const response =
     await fetch(
@@ -343,7 +344,9 @@ async function registerWallet(
 
           nonce,
 
-          signature
+          signature,
+
+          message
         })
       }
     );
@@ -354,6 +357,7 @@ async function registerWallet(
   if (!response.ok) {
     const error =
       new Error(
+        data?.message ||
         data?.error ||
         'Registration failed'
       );
@@ -484,7 +488,7 @@ if (registerButton) {
 
 
         // ----------------------------------------------------
-        // 6. SEND SIGNATURE TO SERVER
+        // 6. SEND SIGNATURE + MESSAGE TO SERVER
         // ----------------------------------------------------
 
         if (registrationStatus) {
@@ -496,7 +500,8 @@ if (registerButton) {
           await registerWallet(
             currentAddress,
             nonce,
-            signature
+            signature,
+            message
           );
 
 
@@ -546,7 +551,9 @@ if (registerButton) {
               'Підпис скасовано. Реєстрацію не виконано.';
 
           } else if (
-            error?.serverData?.code ===
+            error?.serverData?.error ===
+              'WALLET_ALREADY_REGISTERED' ||
+            error?.serverData?.error ===
               'ALREADY_REGISTERED' ||
             String(
               error?.message || ''
