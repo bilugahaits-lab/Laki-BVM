@@ -1,9 +1,7 @@
 import { createAppKit } from '@reown/appkit';
 import { mainnet } from '@reown/appkit/networks';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import {
-  BrowserProvider
-} from 'ethers';
+import { BrowserProvider } from 'ethers';
 
 
 // ============================================================
@@ -40,6 +38,9 @@ const CREATE_NONCE_URL =
 
 const REGISTER_WALLET_URL =
   `${SUPABASE_FUNCTIONS_URL}/register-wallet`;
+
+const CHECK_REGISTRATION_URL =
+  `${SUPABASE_FUNCTIONS_URL}/check-wallet-registration`;
 
 
 // ============================================================
@@ -102,6 +103,11 @@ const registeredContent =
     'registeredContent'
   );
 
+const registeredDownloads =
+  document.getElementById(
+    'registeredDownloads'
+  );
+
 
 // ============================================================
 // CURRENT WALLET
@@ -109,12 +115,15 @@ const registeredContent =
 
 let currentAddress = null;
 
+let accountStateVersion = 0;
+
 
 // ============================================================
 // HELPERS
 // ============================================================
 
 function shortAddress(address) {
+
   if (!address) {
     return '';
   }
@@ -127,86 +136,320 @@ function shortAddress(address) {
 }
 
 
-function resetRegistration() {
-  if (registerButton) {
-    registerButton.hidden = false;
-    registerButton.disabled = false;
-  }
-
-  if (registrationStatus) {
-    registrationStatus.hidden = true;
-    registrationStatus.textContent = '';
-  }
+function setRegisteredAccess(
+  isRegistered
+) {
 
   if (registeredContent) {
-    registeredContent.hidden = true;
+
+    registeredContent.hidden =
+      !isRegistered;
+  }
+
+
+  if (registeredDownloads) {
+
+    registeredDownloads.hidden =
+      !isRegistered;
+  }
+
+
+  if (registerButton) {
+
+    registerButton.hidden =
+      isRegistered;
+
+    registerButton.disabled =
+      false;
+  }
+}
+
+
+function resetRegistration() {
+
+  setRegisteredAccess(
+    false
+  );
+
+
+  if (registrationStatus) {
+
+    registrationStatus.hidden =
+      true;
+
+    registrationStatus.textContent =
+      '';
   }
 }
 
 
 function showDisconnected() {
+
+  accountStateVersion += 1;
+
   currentAddress = null;
 
+
   if (connectButton) {
-    connectButton.hidden = false;
+
+    connectButton.hidden =
+      false;
   }
+
 
   if (disconnectButton) {
-    disconnectButton.hidden = true;
+
+    disconnectButton.hidden =
+      true;
   }
+
 
   if (walletStatus) {
-    walletStatus.hidden = true;
-    walletStatus.textContent = '';
+
+    walletStatus.hidden =
+      true;
+
+    walletStatus.textContent =
+      '';
   }
+
+
+  resetRegistration();
+
 
   if (registerButton) {
-    registerButton.hidden = true;
-    registerButton.disabled = false;
-  }
 
-  if (registrationStatus) {
-    registrationStatus.hidden = true;
-    registrationStatus.textContent = '';
-  }
-
-  if (registeredContent) {
-    registeredContent.hidden = true;
+    registerButton.hidden =
+      true;
   }
 }
 
 
-function showConnected(address) {
-  const addressChanged =
-    currentAddress &&
-    currentAddress.toLowerCase() !==
-    address.toLowerCase();
+function showConnected(
+  address
+) {
 
-  currentAddress = address;
+  currentAddress =
+    address;
+
 
   if (connectButton) {
-    connectButton.hidden = true;
+
+    connectButton.hidden =
+      true;
   }
+
 
   if (disconnectButton) {
-    disconnectButton.hidden = false;
+
+    disconnectButton.hidden =
+      false;
   }
 
+
   if (walletStatus) {
-    walletStatus.hidden = false;
+
+    walletStatus.hidden =
+      false;
 
     walletStatus.textContent =
       'Підключено: ' +
       shortAddress(address) +
       ' · Ethereum Mainnet';
   }
+}
 
-  if (addressChanged) {
-    resetRegistration();
+
+// ============================================================
+// POST JSON
+// ============================================================
+
+async function postJson(
+  url,
+  body
+) {
+
+  const response =
+    await fetch(
+      url,
+      {
+        method:
+          'POST',
+
+        headers: {
+          'Content-Type':
+            'application/json'
+        },
+
+        body:
+          JSON.stringify(
+            body
+          )
+      }
+    );
+
+
+  let data = {};
+
+
+  try {
+
+    data =
+      await response.json();
+
+  } catch {
+
+    data = {};
   }
 
-  if (registerButton) {
-    registerButton.hidden = false;
+
+  if (!response.ok) {
+
+    const error =
+      new Error(
+        data?.error ||
+        `HTTP ${response.status}`
+      );
+
+
+    error.serverData =
+      data;
+
+
+    throw error;
+  }
+
+
+  return data;
+}
+
+
+// ============================================================
+// CHECK WALLET REGISTRATION
+// ============================================================
+
+async function checkWalletRegistration(
+  walletAddress
+) {
+
+  return postJson(
+    CHECK_REGISTRATION_URL,
+    {
+      wallet_address:
+        walletAddress
+    }
+  );
+}
+
+
+// ============================================================
+// REFRESH REGISTRATION STATE
+// ============================================================
+
+async function refreshRegistrationState(
+  walletAddress,
+  stateVersion
+) {
+
+  try {
+
+    if (registrationStatus) {
+
+      registrationStatus.hidden =
+        false;
+
+      registrationStatus.textContent =
+        'Перевіряємо реєстрацію гаманця...';
+    }
+
+
+    const data =
+      await checkWalletRegistration(
+        walletAddress
+      );
+
+
+    if (
+      stateVersion !==
+        accountStateVersion ||
+      !currentAddress ||
+      currentAddress.toLowerCase() !==
+        walletAddress.toLowerCase()
+    ) {
+
+      return;
+    }
+
+
+    const isRegistered =
+      data?.registered === true ||
+      data?.is_registered === true ||
+      data?.registration_verified === true;
+
+
+    if (isRegistered) {
+
+      setRegisteredAccess(
+        true
+      );
+
+
+      if (registrationStatus) {
+
+        registrationStatus.hidden =
+          false;
+
+        registrationStatus.textContent =
+          'Гаманець зареєстрований. Доступ підтверджено.';
+      }
+
+    } else {
+
+      setRegisteredAccess(
+        false
+      );
+
+
+      if (registrationStatus) {
+
+        registrationStatus.hidden =
+          true;
+
+        registrationStatus.textContent =
+          '';
+      }
+    }
+
+  } catch (error) {
+
+    console.error(
+      'Registration check error:',
+      error
+    );
+
+
+    if (
+      stateVersion !==
+      accountStateVersion
+    ) {
+
+      return;
+    }
+
+
+    setRegisteredAccess(
+      false
+    );
+
+
+    if (registrationStatus) {
+
+      registrationStatus.hidden =
+        false;
+
+      registrationStatus.textContent =
+        'Не вдалося перевірити реєстрацію гаманця.';
+    }
   }
 }
 
@@ -216,9 +459,11 @@ function showConnected(address) {
 // ============================================================
 
 if (connectButton) {
+
   connectButton.addEventListener(
     'click',
     () => {
+
       modal.open();
     }
   );
@@ -231,15 +476,32 @@ if (connectButton) {
 
 modal.subscribeAccount(
   (account) => {
+
     if (
       account &&
       account.isConnected &&
       account.address
     ) {
+
+      accountStateVersion += 1;
+
+
+      const stateVersion =
+        accountStateVersion;
+
+
       showConnected(
         account.address
       );
+
+
+      refreshRegistrationState(
+        account.address,
+        stateVersion
+      );
+
     } else {
+
       showDisconnected();
     }
   }
@@ -251,14 +513,21 @@ modal.subscribeAccount(
 // ============================================================
 
 if (disconnectButton) {
+
   disconnectButton.addEventListener(
     'click',
+
     async () => {
+
       try {
+
         await modal.disconnect();
 
+
         showDisconnected();
+
       } catch (error) {
+
         console.error(
           'Wallet disconnect error:',
           error
@@ -276,42 +545,27 @@ if (disconnectButton) {
 async function createWalletNonce(
   walletAddress
 ) {
-  const response =
-    await fetch(
+
+  const data =
+    await postJson(
       CREATE_NONCE_URL,
       {
-        method: 'POST',
-
-        headers: {
-          'Content-Type':
-            'application/json'
-        },
-
-        body: JSON.stringify({
-          wallet_address:
-            walletAddress
-        })
+        wallet_address:
+          walletAddress
       }
     );
 
-  const data =
-    await response.json();
-
-  if (!response.ok) {
-    throw new Error(
-      data?.error ||
-      'Could not create nonce'
-    );
-  }
 
   if (
     !data?.nonce ||
     !data?.expires_at
   ) {
+
     throw new Error(
       'Invalid nonce response'
     );
   }
+
 
   return data;
 }
@@ -327,47 +581,20 @@ async function registerWallet(
   signature,
   message
 ) {
-  const response =
-    await fetch(
-      REGISTER_WALLET_URL,
-      {
-        method: 'POST',
 
-        headers: {
-          'Content-Type':
-            'application/json'
-        },
+  return postJson(
+    REGISTER_WALLET_URL,
+    {
+      wallet_address:
+        walletAddress,
 
-        body: JSON.stringify({
-          wallet_address:
-            walletAddress,
+      nonce,
 
-          nonce,
+      signature,
 
-          signature,
-
-          message
-        })
-      }
-    );
-
-  const data =
-    await response.json();
-
-  if (!response.ok) {
-    const error =
-      new Error(
-        data?.message ||
-        data?.error ||
-        'Registration failed'
-      );
-
-    error.serverData = data;
-
-    throw error;
-  }
-
-  return data;
+      message
+    }
+  );
 }
 
 
@@ -376,18 +603,28 @@ async function registerWallet(
 // ============================================================
 
 if (registerButton) {
+
   registerButton.addEventListener(
     'click',
+
     async () => {
+
       if (!currentAddress) {
+
         return;
       }
 
+
       try {
-        registerButton.disabled = true;
+
+        registerButton.disabled =
+          true;
+
 
         if (registrationStatus) {
-          registrationStatus.hidden = false;
+
+          registrationStatus.hidden =
+            false;
 
           registrationStatus.textContent =
             'Створюємо захищений запит реєстрації...';
@@ -395,7 +632,7 @@ if (registerButton) {
 
 
         // ----------------------------------------------------
-        // 1. REQUEST NONCE FROM SUPABASE
+        // 1. CREATE NONCE
         // ----------------------------------------------------
 
         const nonceData =
@@ -403,46 +640,54 @@ if (registerButton) {
             currentAddress
           );
 
+
         const nonce =
           nonceData.nonce;
+
 
         const expiresAt =
           nonceData.expires_at;
 
 
         // ----------------------------------------------------
-        // 2. GET CONNECTED WALLET PROVIDER
+        // 2. GET WALLET PROVIDER
         // ----------------------------------------------------
 
         const walletProvider =
           modal.getWalletProvider();
 
+
         if (!walletProvider) {
+
           throw new Error(
             'Wallet provider not available'
           );
         }
+
 
         const provider =
           new BrowserProvider(
             walletProvider
           );
 
+
         const signer =
           await provider.getSigner();
+
 
         const signerAddress =
           await signer.getAddress();
 
 
         // ----------------------------------------------------
-        // 3. VERIFY CONNECTED ADDRESS
+        // 3. VERIFY ADDRESS
         // ----------------------------------------------------
 
         if (
           signerAddress.toLowerCase() !==
           currentAddress.toLowerCase()
         ) {
+
           throw new Error(
             'Wallet address mismatch'
           );
@@ -450,36 +695,51 @@ if (registerButton) {
 
 
         // ----------------------------------------------------
-        // 4. MESSAGE TO SIGN
+        // 4. MESSAGE
         // ----------------------------------------------------
 
         const message = [
+
           'Laki BVM — Web3 Registration',
+
           '',
+
           'Wallet: ' +
             currentAddress,
+
           'Network: Ethereum Mainnet',
+
           'Chain ID: 1',
+
           'Domain: bilugahaits-lab.github.io',
+
           'Nonce: ' +
             nonce,
+
           'Expires At: ' +
             expiresAt,
+
           '',
+
           'Sign this message to register your wallet.',
+
           'This signature does not perform a transaction',
+
           'and does not authorize token transfers.'
+
         ].join('\n');
 
 
         // ----------------------------------------------------
-        // 5. SIGN MESSAGE IN METAMASK
+        // 5. SIGN MESSAGE
         // ----------------------------------------------------
 
         if (registrationStatus) {
+
           registrationStatus.textContent =
             'Підтвердьте підпис у гаманці...';
         }
+
 
         const signature =
           await signer.signMessage(
@@ -488,13 +748,15 @@ if (registerButton) {
 
 
         // ----------------------------------------------------
-        // 6. SEND SIGNATURE + MESSAGE TO SERVER
+        // 6. SEND TO SERVER
         // ----------------------------------------------------
 
         if (registrationStatus) {
+
           registrationStatus.textContent =
             'Перевіряємо підпис на сервері...';
         }
+
 
         const result =
           await registerWallet(
@@ -509,24 +771,31 @@ if (registerButton) {
         // 7. SUCCESS
         // ----------------------------------------------------
 
-        if (result?.success !== true) {
+        if (
+          result?.success !==
+          true
+        ) {
+
           throw new Error(
             'Registration was not confirmed'
           );
         }
 
+
+        setRegisteredAccess(
+          true
+        );
+
+
         if (registrationStatus) {
-          registrationStatus.hidden = false;
+
+          registrationStatus.hidden =
+            false;
 
           registrationStatus.textContent =
-            'Web3-реєстрація успішна.';
+            'Web3-реєстрація успішна. Доступ підтверджено.';
         }
 
-        if (registeredContent) {
-          registeredContent.hidden = false;
-        }
-
-        registerButton.hidden = true;
 
         console.log(
           'Laki Web3 registration successful:',
@@ -534,27 +803,35 @@ if (registerButton) {
         );
 
       } catch (error) {
+
         console.error(
           'Registration error:',
           error
         );
 
+
         if (registrationStatus) {
-          registrationStatus.hidden = false;
+
+          registrationStatus.hidden =
+            false;
+
 
           if (
-            error?.code === 4001 ||
+            error?.code ===
+              4001 ||
             error?.code ===
               'ACTION_REJECTED'
           ) {
+
             registrationStatus.textContent =
               'Підпис скасовано. Реєстрацію не виконано.';
 
+
           } else if (
-            error?.serverData?.error ===
-              'WALLET_ALREADY_REGISTERED' ||
-            error?.serverData?.error ===
+
+            error?.serverData?.code ===
               'ALREADY_REGISTERED' ||
+
             String(
               error?.message || ''
             )
@@ -562,22 +839,42 @@ if (registerButton) {
               .includes(
                 'already registered'
               )
+
           ) {
+
             registrationStatus.textContent =
-              'Цей гаманець уже зареєстрований.';
+              'Цей гаманець уже зареєстрований. Оновлюємо доступ...';
+
+
+            const stateVersion =
+              accountStateVersion;
+
+
+            await refreshRegistrationState(
+              currentAddress,
+              stateVersion
+            );
+
 
           } else {
+
             registrationStatus.textContent =
               'Не вдалося виконати Web3-реєстрацію.';
           }
         }
 
-        registerButton.disabled = false;
+
+        registerButton.disabled =
+          false;
       }
     }
   );
 }
 
+
+// ============================================================
+// EXPORT
+// ============================================================
 
 export {
   modal
