@@ -5,7 +5,7 @@ import { BrowserProvider } from 'ethers';
 
 
 // ============================================================
-// REOWN / WALLETCONNECT
+// REOWN
 // ============================================================
 
 const projectId =
@@ -27,7 +27,7 @@ const metadata = {
 
 
 // ============================================================
-// SUPABASE EDGE FUNCTIONS
+// SUPABASE
 // ============================================================
 
 const SUPABASE_FUNCTIONS_URL =
@@ -42,12 +42,16 @@ const REGISTER_WALLET_URL =
 const CHECK_REGISTRATION_URL =
   `${SUPABASE_FUNCTIONS_URL}/check-wallet-registration`;
 
+const PROTECTED_ASSETS_URL =
+  `${SUPABASE_FUNCTIONS_URL}/get-registered-assets`;
+
 
 // ============================================================
 // APPKIT
 // ============================================================
 
 const modal = createAppKit({
+
   adapters: [
     new EthersAdapter()
   ],
@@ -108,9 +112,34 @@ const registeredDownloads =
     'registeredDownloads'
   );
 
+const requestDownloadsButton =
+  document.getElementById(
+    'requestProtectedDownloads'
+  );
+
+const downloadStatus =
+  document.getElementById(
+    'downloadStatus'
+  );
+
+const protectedDownloadLinks =
+  document.getElementById(
+    'protectedDownloadLinks'
+  );
+
+const downloadBvmButton =
+  document.getElementById(
+    'downloadBvmButton'
+  );
+
+const downloadUnoButton =
+  document.getElementById(
+    'downloadUnoButton'
+  );
+
 
 // ============================================================
-// CURRENT WALLET
+// STATE
 // ============================================================
 
 let currentAddress = null;
@@ -122,7 +151,9 @@ let accountStateVersion = 0;
 // HELPERS
 // ============================================================
 
-function shortAddress(address) {
+function shortAddress(
+  address
+) {
 
   if (!address) {
     return '';
@@ -133,6 +164,52 @@ function shortAddress(address) {
     '...' +
     address.slice(-4)
   );
+}
+
+
+function clearProtectedDownloads() {
+
+  if (downloadBvmButton) {
+
+    downloadBvmButton.removeAttribute(
+      'href'
+    );
+  }
+
+
+  if (downloadUnoButton) {
+
+    downloadUnoButton.removeAttribute(
+      'href'
+    );
+  }
+
+
+  if (protectedDownloadLinks) {
+
+    protectedDownloadLinks.hidden =
+      true;
+  }
+
+
+  if (downloadStatus) {
+
+    downloadStatus.hidden =
+      true;
+
+    downloadStatus.textContent =
+      '';
+  }
+
+
+  if (requestDownloadsButton) {
+
+    requestDownloadsButton.hidden =
+      false;
+
+    requestDownloadsButton.disabled =
+      false;
+  }
 }
 
 
@@ -162,6 +239,12 @@ function setRegisteredAccess(
     registerButton.disabled =
       false;
   }
+
+
+  if (!isRegistered) {
+
+    clearProtectedDownloads();
+  }
 }
 
 
@@ -187,7 +270,8 @@ function showDisconnected() {
 
   accountStateVersion += 1;
 
-  currentAddress = null;
+  currentAddress =
+    null;
 
 
   if (connectButton) {
@@ -222,6 +306,9 @@ function showDisconnected() {
     registerButton.hidden =
       true;
   }
+
+
+  clearProtectedDownloads();
 }
 
 
@@ -273,10 +360,12 @@ async function postJson(
     await fetch(
       url,
       {
+
         method:
           'POST',
 
         headers: {
+
           'Content-Type':
             'application/json'
         },
@@ -325,7 +414,7 @@ async function postJson(
 
 
 // ============================================================
-// CHECK WALLET REGISTRATION
+// CHECK REGISTRATION
 // ============================================================
 
 async function checkWalletRegistration(
@@ -341,10 +430,6 @@ async function checkWalletRegistration(
   );
 }
 
-
-// ============================================================
-// REFRESH REGISTRATION STATE
-// ============================================================
 
 async function refreshRegistrationState(
   walletAddress,
@@ -455,7 +540,7 @@ async function refreshRegistrationState(
 
 
 // ============================================================
-// CONNECT WALLET
+// CONNECT
 // ============================================================
 
 if (connectButton) {
@@ -490,6 +575,9 @@ modal.subscribeAccount(
         accountStateVersion;
 
 
+      clearProtectedDownloads();
+
+
       showConnected(
         account.address
       );
@@ -509,7 +597,7 @@ modal.subscribeAccount(
 
 
 // ============================================================
-// DISCONNECT WALLET
+// DISCONNECT
 // ============================================================
 
 if (disconnectButton) {
@@ -522,7 +610,6 @@ if (disconnectButton) {
       try {
 
         await modal.disconnect();
-
 
         showDisconnected();
 
@@ -539,7 +626,7 @@ if (disconnectButton) {
 
 
 // ============================================================
-// REQUEST SERVER NONCE
+// CREATE REGISTRATION NONCE
 // ============================================================
 
 async function createWalletNonce(
@@ -572,34 +659,35 @@ async function createWalletNonce(
 
 
 // ============================================================
-// SEND SIGNATURE TO SERVER
+// REGISTER WALLET
 // ============================================================
 
 async function registerWallet(
   walletAddress,
   nonce,
-  signature,
-  message
+  message,
+  signature
 ) {
 
   return postJson(
     REGISTER_WALLET_URL,
     {
+
       wallet_address:
         walletAddress,
 
       nonce,
 
-      signature,
+      message,
 
-      message
+      signature
     }
   );
 }
 
 
 // ============================================================
-// REAL WEB3 REGISTRATION
+// REGISTRATION BUTTON
 // ============================================================
 
 if (registerButton) {
@@ -631,10 +719,6 @@ if (registerButton) {
         }
 
 
-        // ----------------------------------------------------
-        // 1. CREATE NONCE
-        // ----------------------------------------------------
-
         const nonceData =
           await createWalletNonce(
             currentAddress
@@ -648,10 +732,6 @@ if (registerButton) {
         const expiresAt =
           nonceData.expires_at;
 
-
-        // ----------------------------------------------------
-        // 2. GET WALLET PROVIDER
-        // ----------------------------------------------------
 
         const walletProvider =
           modal.getWalletProvider();
@@ -679,10 +759,6 @@ if (registerButton) {
           await signer.getAddress();
 
 
-        // ----------------------------------------------------
-        // 3. VERIFY ADDRESS
-        // ----------------------------------------------------
-
         if (
           signerAddress.toLowerCase() !==
           currentAddress.toLowerCase()
@@ -693,10 +769,6 @@ if (registerButton) {
           );
         }
 
-
-        // ----------------------------------------------------
-        // 4. MESSAGE
-        // ----------------------------------------------------
 
         const message = [
 
@@ -730,10 +802,6 @@ if (registerButton) {
         ].join('\n');
 
 
-        // ----------------------------------------------------
-        // 5. SIGN MESSAGE
-        // ----------------------------------------------------
-
         if (registrationStatus) {
 
           registrationStatus.textContent =
@@ -747,10 +815,6 @@ if (registerButton) {
           );
 
 
-        // ----------------------------------------------------
-        // 6. SEND TO SERVER
-        // ----------------------------------------------------
-
         if (registrationStatus) {
 
           registrationStatus.textContent =
@@ -762,14 +826,10 @@ if (registerButton) {
           await registerWallet(
             currentAddress,
             nonce,
-            signature,
-            message
+            message,
+            signature
           );
 
-
-        // ----------------------------------------------------
-        // 7. SUCCESS
-        // ----------------------------------------------------
 
         if (
           result?.success !==
@@ -796,11 +856,6 @@ if (registerButton) {
             'Web3-реєстрація успішна. Доступ підтверджено.';
         }
 
-
-        console.log(
-          'Laki Web3 registration successful:',
-          currentAddress
-        );
 
       } catch (error) {
 
@@ -843,16 +898,12 @@ if (registerButton) {
           ) {
 
             registrationStatus.textContent =
-              'Цей гаманець уже зареєстрований. Оновлюємо доступ...';
-
-
-            const stateVersion =
-              accountStateVersion;
+              'Цей гаманець уже зареєстрований.';
 
 
             await refreshRegistrationState(
               currentAddress,
-              stateVersion
+              accountStateVersion
             );
 
 
@@ -865,6 +916,248 @@ if (registerButton) {
 
 
         registerButton.disabled =
+          false;
+      }
+    }
+  );
+}
+
+
+// ============================================================
+// PROTECTED DOWNLOAD ACCESS
+// ============================================================
+
+if (requestDownloadsButton) {
+
+  requestDownloadsButton.addEventListener(
+    'click',
+
+    async () => {
+
+      if (!currentAddress) {
+
+        return;
+      }
+
+
+      try {
+
+        requestDownloadsButton.disabled =
+          true;
+
+
+        if (downloadStatus) {
+
+          downloadStatus.hidden =
+            false;
+
+          downloadStatus.textContent =
+            'Підтвердьте доступ у гаманці...';
+        }
+
+
+        const walletProvider =
+          modal.getWalletProvider();
+
+
+        if (!walletProvider) {
+
+          throw new Error(
+            'Wallet provider not available'
+          );
+        }
+
+
+        const provider =
+          new BrowserProvider(
+            walletProvider
+          );
+
+
+        const signer =
+          await provider.getSigner();
+
+
+        const signerAddress =
+          await signer.getAddress();
+
+
+        if (
+          signerAddress.toLowerCase() !==
+          currentAddress.toLowerCase()
+        ) {
+
+          throw new Error(
+            'Wallet address mismatch'
+          );
+        }
+
+
+        const timestamp =
+          Date.now();
+
+
+        const message = [
+
+          'Laki BVM — Protected Asset Access',
+
+          '',
+
+          'Wallet: ' +
+            currentAddress,
+
+          'Network: Ethereum Mainnet',
+
+          'Chain ID: 1',
+
+          'Domain: bilugahaits-lab.github.io',
+
+          'Timestamp: ' +
+            timestamp,
+
+          '',
+
+          'Sign this message to access protected Laki assets.',
+
+          'This signature does not perform a transaction',
+
+          'and does not authorize token transfers.'
+
+        ].join('\n');
+
+
+        const signature =
+          await signer.signMessage(
+            message
+          );
+
+
+        if (downloadStatus) {
+
+          downloadStatus.textContent =
+            'Створюємо захищені посилання...';
+        }
+
+
+        const result =
+          await postJson(
+            PROTECTED_ASSETS_URL,
+            {
+
+              wallet_address:
+                currentAddress,
+
+              message,
+
+              signature
+            }
+          );
+
+
+        if (
+          result?.success !== true ||
+          !result?.assets?.bvm?.url ||
+          !result?.assets?.uno?.url
+        ) {
+
+          throw new Error(
+            'Protected links were not created'
+          );
+        }
+
+
+        if (downloadBvmButton) {
+
+          downloadBvmButton.href =
+            result.assets.bvm.url;
+        }
+
+
+        if (downloadUnoButton) {
+
+          downloadUnoButton.href =
+            result.assets.uno.url;
+        }
+
+
+        if (protectedDownloadLinks) {
+
+          protectedDownloadLinks.hidden =
+            false;
+        }
+
+
+        requestDownloadsButton.hidden =
+          true;
+
+
+        if (downloadStatus) {
+
+          downloadStatus.hidden =
+            false;
+
+          downloadStatus.textContent =
+            'Захищений доступ відкрито на 5 хвилин.';
+        }
+
+
+        window.setTimeout(
+          () => {
+
+            clearProtectedDownloads();
+
+
+            if (
+              currentAddress &&
+              downloadStatus
+            ) {
+
+              downloadStatus.hidden =
+                false;
+
+              downloadStatus.textContent =
+                'Час захищеного доступу завершився. За потреби отримайте нове посилання.';
+            }
+
+          },
+
+          300000
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          'Protected download error:',
+          error
+        );
+
+
+        if (downloadStatus) {
+
+          downloadStatus.hidden =
+            false;
+
+
+          if (
+            error?.code ===
+              4001 ||
+            error?.code ===
+              'ACTION_REJECTED'
+          ) {
+
+            downloadStatus.textContent =
+              'Підпис скасовано. Доступ не відкрито.';
+
+          } else {
+
+            downloadStatus.textContent =
+              'Не вдалося отримати захищений доступ.';
+          }
+        }
+
+
+        requestDownloadsButton.disabled =
           false;
       }
     }
